@@ -17,7 +17,7 @@ auth.onAuthStateChanged(function(user) {
         })
 
         currentId = user.uid;  
-        if(window.location == "../../views/index.html"){
+        if(window.location == "Codia-Social-Media-v2.0/index.html"){
             localStorage.setItem('profileId', user.uid)
         }
     }else{
@@ -30,6 +30,6 @@ logOutBtn.onclick = () => {
     }).catch(function(error) {
        console.log(error.message)
     });
-    window.location = "../../views/login.html"
+    window.location = "Codia-Social-Media-v2.0/views/login.html"
 };
 

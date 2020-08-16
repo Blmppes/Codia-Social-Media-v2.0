@@ -6,7 +6,7 @@ const changeProfileId = (id, status) => {
     if(status == 'p'){
         localStorage.setItem('profileId', id) 
         setTimeout(() => {
-            window.location = "../../views/profile.html"
+            window.location = "Codia-Social-Media-v2.0/profile.html"
         },1000)
     }else{
         localStorage.setItem('profileId', id) 

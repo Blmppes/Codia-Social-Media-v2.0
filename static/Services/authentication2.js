@@ -1,7 +1,7 @@
 auth.onAuthStateChanged((user) => {
     if(user){
-        window.location = "../../views/index.html"
+        window.location = "Codia-Social-Media-v2.0/views/index.html"
     }else{
-        window.location = "../../views/login.html"
+        window.location = "Codia-Social-Media-v2.0/views/login.html"
     }
 })

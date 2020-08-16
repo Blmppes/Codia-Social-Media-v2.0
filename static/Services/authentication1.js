@@ -18,7 +18,7 @@ const signInNow = document.getElementById("sign-in-now");
 
 try{
     signInNow.onclick = () => {
-        window.location = '../../views/login.html'
+        window.location = 'Codia-Social-Media-v2.0/views/login.html'
     }
 }catch{
     console.log("...")
@@ -26,7 +26,7 @@ try{
 
 try{
     signUpNow.onclick = () => {
-        window.location = '../../views/register.html'
+        window.location = 'Codia-Social-Media-v2.0/views/register.html'
     }
 }catch{
     console.log("...")
@@ -44,7 +44,7 @@ try{
                 friends: []
             })
             .then(() => {
-                window.location = "../../views/index.html"
+                window.location = "Codia-Social-Media-v2.0/index.html"
             })
             .catch(() => {
                 console.log("Error")
@@ -63,7 +63,7 @@ try{
 try{
     loginBtn.onclick = () => {
         auth.signInWithEmailAndPassword(loginEmail.value, loginPassword.value).then(() => {
-            window.location = "../../views/index.html"
+            window.location = "Codia-Social-Media-v2.0/index.html"
         })
     };
 }catch{
