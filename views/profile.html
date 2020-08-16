@@ -45,30 +45,38 @@
     </head>
     <body class="bg-light" style="overflow-x: hidden;">
         <div id="page-container" class="container-fluid">
-            <nav class="navbar navbar-expand-lg border-bottom" style="position: relative; left: 0px; top: 0px; width: 100%;background-color: white;">
-                <img src="../static/images/icons/logo.PNG" class="navbar-brand" href="#" style="margin-left: 200px;height: 40px;width: 90px">
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="height: 40px">
-                
-                <input id="search-friend-input" class="form-control mx-auto" type="search" placeholder="Search for your friend:" aria-label="Search" style="width: 300px;height: 28px;text-align: center;">
-                <ul id="suggestionList" style="left:491px;"></ul>
-                
-                <div id="profile-nav" style="display: flex;">
-                    <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
-                    <i class="fas fa-home mr-5" style="font-size: 25px;" onclick='window.location = "index.html"'></i>
-                    <div id="profile-dropdown" style="margin-right: 200px">
-                        <img id="profile-dropdown-pic" src="" class="small-avartar"/>
-                        <div id="profile-dropdown-menu">
-                          <a href="profile.html" id="profile-btn"><i class="far fa-user-circle"></i><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Profile</p></a>
-                          <br>
-                          <i class="fas fa-cog"><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Setting</p></i>
-                          <hr/>
-                          <p id="logout-btn" style="margin-bottom: 5px" class="dropdown-items">Log Out</p>
+            <nav class="navbar navbar-expand-lg border-bottom" style="position: fixed; left: 0px; top: 0px; width: 100%;background-color: white;z-index: 1;">
+                <div id="inner-navbar" class="navbar navbar-expand-lg mx-auto" style="width: 966px;padding: 0px">
+                  <img src="../static/images/icons/logo.PNG" class="navbar-brand" href="#" style="height: 40px;width: 90px">
+        
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-chevron-circle-down"></i>
+                  </button>
+                  
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div id="search-group" class="ml-auto" style="position: relative;width: 230px;height: 27px;overflow:visible">
+                      <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="position:absolute;width: 230px;height: 27px;text-align: center;">
+                      <ul id="suggestionList"></ul>      
+                    </div>
+              
+                    <div id="profile-nav" class="ml-auto" style="display: flex;">
+                        <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
+                        <i class="fas fa-home mr-5" style="font-size: 25px;" ><span class="sr-only">(current)</span></i>
+                        <div id="profile-dropdown">
+                            <img id="profile-dropdown-pic" src="" class="small-avartar"/>
+                            <div id="profile-dropdown-menu">
+                              <a href="profile.html" id="profile-btn"><i class="far fa-user-circle"></i><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Profile</p></a>
+                              <br>
+                              <i class="fas fa-cog"><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Setting</p></i>
+                              <hr/>
+                              <p id="logout-btn" style="margin-bottom: 5px" class="dropdown-items">Log Out</p>
+                            </div>
                         </div>
                     </div>
                   </div>
-            </nav>
-            <div id="profile-container" class="container" style="margin-left: 210px;width: 945px;">
+                </div>  
+              </nav>
+            <div id="profile-container" class="container" style="margin: 60px 0px 0px 210px;width: 945px;">
                 
             </div>
         </div>

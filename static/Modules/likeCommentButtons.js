@@ -47,7 +47,7 @@ const updateComments = (id, data, friends) => {
         subHtml += `
         <li style="display: flex">
             <img src='${ele["avartar"]}' class="small-avartar"/>
-            <p class="lead" onclick="changeProfileId('${data.userId}', 'p')">${ele["name"]}</p>
+            <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${ele["name"]}</p>
         `
         console.log(friends)
         if(!(friends.includes(ele['id'])) && currentId != ele['id']){

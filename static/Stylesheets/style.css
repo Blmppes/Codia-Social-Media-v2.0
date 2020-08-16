@@ -140,16 +140,17 @@ input[type="file"] {
 
 #suggestionList{
   position: absolute;
-  top: 45px; 
-  /* left:569px; */
+  top: 27px;
+  max-height: 300px;
   z-index: 1;
-  border: 1px solid grey;
+  overflow-y: auto;
+  border: 1px solid rgb(202, 202, 202);
   background-color: white;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .suggestion{
-  width: 297px;
+  width: 215px;
   height: 80;
   padding: 10px;
   display: flex;
@@ -187,7 +188,6 @@ input[type="file"] {
   display: none;
   position: absolute;
   top: 50px;
-  right: 200px;
   padding: 10px;
   width: 190px;
   height: fit-content;

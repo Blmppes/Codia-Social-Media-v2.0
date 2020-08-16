@@ -12,9 +12,9 @@ searchFriendInput.addEventListener("keyup", (event) => {
                     let name = document.createElement("p");
                     let avartar = document.createElement("img");
     
-                    li.className = "suggestion"
+                    li.className = "suggestion border-top"
                     li.onclick = () => {
-                        window.location = "http://127.0.0.1:5500/views/profile.html";
+                        changeProfileId(doc.id, 'p');
                     }
                     name.innerHTML = doc.data().name
                     avartar.src = doc.data().avartar
