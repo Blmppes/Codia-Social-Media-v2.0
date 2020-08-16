@@ -17,7 +17,7 @@ auth.onAuthStateChanged(function(user) {
         })
 
         currentId = user.uid;  
-        if(window.location == "http://127.0.0.1:5500/views/index.html"){
+        if(window.location == "../../views/index.html"){
             localStorage.setItem('profileId', user.uid)
         }
     }else{
@@ -30,6 +30,6 @@ logOutBtn.onclick = () => {
     }).catch(function(error) {
        console.log(error.message)
     });
-    window.location = "http://127.0.0.1:5500/views/login.html"
+    window.location = "../../views/login.html"
 };
 

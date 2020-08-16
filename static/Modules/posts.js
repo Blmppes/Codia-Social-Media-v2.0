@@ -6,7 +6,7 @@ const changeProfileId = (id, status) => {
     if(status == 'p'){
         localStorage.setItem('profileId', id) 
         setTimeout(() => {
-            window.location = "http://127.0.0.1:5500/views/profile.html"
+            window.location = "../../views/profile.html"
         },1000)
     }else{
         localStorage.setItem('profileId', id) 

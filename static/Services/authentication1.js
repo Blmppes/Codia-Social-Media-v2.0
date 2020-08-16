@@ -18,7 +18,7 @@ const signInNow = document.getElementById("sign-in-now");
 
 try{
     signInNow.onclick = () => {
-        window.location = 'http://127.0.0.1:5500/views/login.html'
+        window.location = '../../views/login.html'
     }
 }catch{
     console.log("...")
@@ -26,7 +26,7 @@ try{
 
 try{
     signUpNow.onclick = () => {
-        window.location = 'http://127.0.0.1:5500/views/register.html'
+        window.location = '../../views/register.html'
     }
 }catch{
     console.log("...")
@@ -44,7 +44,7 @@ try{
                 friends: []
             })
             .then(() => {
-                window.location = "http://127.0.0.1:5500/views/index.html"
+                window.location = "../../views/index.html"
             })
             .catch(() => {
                 console.log("Error")
@@ -63,7 +63,7 @@ try{
 try{
     loginBtn.onclick = () => {
         auth.signInWithEmailAndPassword(loginEmail.value, loginPassword.value).then(() => {
-            window.location = "http://127.0.0.1:5500/views/index.html"
+            window.location = "../../views/index.html"
         })
     };
 }catch{
