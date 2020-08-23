@@ -8,13 +8,13 @@ const updateToFirestore = (docId, userid, type) => {
                     like: firebase.firestore.FieldValue.increment(-1),
                     liked: firebase.firestore.FieldValue.arrayRemove(userid)
                 })
-                document.getElementById(`heart-${docId}`).className = "far fa-heart";
+                document.getElementById(`heart-${docId}`).className = "far fa-heart ml-auto";
             }else{
                 db.collection("post").doc(docId).update({
                     like: firebase.firestore.FieldValue.increment(1),
                     liked: firebase.firestore.FieldValue.arrayUnion(userid)
                 })
-                document.getElementById(`heart-${docId}`).className = "fas fa-heart";
+                document.getElementById(`heart-${docId}`).className = "fas fa-heart ml-auto";
             }
         })
     }else{

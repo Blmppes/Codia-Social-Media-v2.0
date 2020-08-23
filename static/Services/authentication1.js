@@ -41,7 +41,8 @@ try{
             db.collection("profile").doc(data.user.uid).set({
                 name: username.value,
                 avartar: "https://www.epicentrofestival.com/wp-content/uploads/2019/12/Person-Clipart-Person-Clip-Art-Image-Clip-Art-Library-Hypertext-Transfer-Protocol-720x962.jpg",
-                friends: []
+                friends: [],
+                followers: []
             })
             .then(() => {
                 window.location = "index.html"

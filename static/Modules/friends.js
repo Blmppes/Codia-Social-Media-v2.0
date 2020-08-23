@@ -30,7 +30,10 @@ const printFriend = (name, img_url, status) => {
 const followFunction = (uid) => {
   let btn = document.getElementsByClassName(`post-follow-btn-${uid}`)
   db.collection("profile").doc(currentId).update({
-    friends: firebase.firestore.FieldValue.arrayUnion(uid)
+    friends: firebase.firestore.FieldValue.arrayUnion(uid),
+  })
+  db.collection("profile").doc(uid).update({
+    followers: firebase.firestore.FieldValue.arrayUnion(currentId),
   })
   for(let i = 0; i < btn.length; i++){
     btn[i].innerHTML = "Followed"

@@ -1,9 +1,9 @@
 setTimeout(() => {
     let inter = setInterval(() => {
         try{
-            db.collection("profile").doc(localStorage.getItem('profileId')).get().then(doc => {
+            db.collection("profile").doc(localStorage.getItem('profileId')).get().then(innerdoc => {
                 console.log(localStorage.getItem('profileId'))
-                displayProfile(doc.id, doc.data());
+                displayProfile(innerdoc.id, innerdoc.data(), innerdoc.data().followers);
             })
             clearInterval(inter);
         }catch{

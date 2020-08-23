@@ -42,43 +42,86 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
         <title>Document</title>
+
+        <style>
+            @media only screen and (max-width: 400px) {
+                .profile-info{
+                  display: block;
+                }
+                .big-avartar{
+                    margin: 10px auto;
+  
+                }
+                .profile-info-text-name h2{
+                    font-size: larger;
+                }
+                #profile-container{
+                  margin:0px;
+                }
+            
+            }
+      
+            @media only screen and (min-width: 400px) {
+                .profile-info{
+                  display: flex;
+                }
+                .big-avartar{
+                  margin-right: 15%;
+                }
+            }
+          </style>
     </head>
     <body class="bg-light" style="overflow-x: hidden;">
         <div id="page-container" class="container-fluid">
-            <nav class="navbar navbar-expand-lg border-bottom" style="position: fixed; left: 0px; top: 0px; width: 100%;background-color: white;z-index: 1;">
-                <div id="inner-navbar" class="navbar navbar-expand-lg mx-auto" style="width: 966px;padding: 0px">
-                  <img src="../static/images/icons/logo.PNG" class="navbar-brand" href="#" style="height: 40px;width: 90px">
-        
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-chevron-circle-down"></i>
-                  </button>
-                  
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div id="search-group" class="ml-auto" style="position: relative;width: 230px;height: 27px;overflow:visible">
-                      <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="position:absolute;width: 230px;height: 27px;text-align: center;">
-                      <ul id="suggestionList"></ul>      
-                    </div>
+          <nav class="navbar navbar-expand-lg border-bottom" style="position: fixed; left: 0px; top: 0px; width: 100%;background-color: white;z-index: 1;">
+            <div id="inner-navbar" class="navbar navbar-expand-lg mx-auto" style="width: 966px;padding: 0px">
+              <img src="../static/images/icons/logo.PNG" class="navbar-brand" href="#" style="height: 40px;width: 90px">
+    
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-chevron-circle-down"></i>
+              </button>
               
-                    <div id="profile-nav" class="ml-auto" style="display: flex;">
-                        <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
-                        <i class="fas fa-home mr-5" style="font-size: 25px;" ><span class="sr-only">(current)</span></i>
-                        <div id="profile-dropdown">
-                            <img id="profile-dropdown-pic" src="" class="small-avartar"/>
-                            <div id="profile-dropdown-menu">
-                              <a href="profile.html" id="profile-btn"><i class="far fa-user-circle"></i><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Profile</p></a>
-                              <br>
-                              <i class="fas fa-cog"><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Setting</p></i>
-                              <hr/>
-                              <p id="logout-btn" style="margin-bottom: 5px" class="dropdown-items">Log Out</p>
-                            </div>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div id="search-group" class="ml-auto" style="position: relative;width: 230px;height: 27px;overflow:visible">
+                  <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="position:absolute;width: 230px;height: 27px;text-align: center;">
+                  <ul id="suggestionList"></ul>      
+                </div>
+          
+                <div id="profile-nav" class="ml-auto" style="display: flex;">
+                    <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
+                    <i class="fas fa-home mr-5" style="font-size: 25px;" onclick="window.location = 'index.html'"><span class="sr-only">(current)</span></i>
+                    <div id="profile-dropdown">
+                        <img id="profile-dropdown-pic" src="" class="small-avartar"/>
+                        <div id="profile-dropdown-menu">
+                          <a href="profile.html" id="profile-btn"><i class="far fa-user-circle"></i><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Profile</p></a>
+                          <br>
+                          <i class="fas fa-cog"><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Setting</p></i>
+                          <hr/>
+                          <p id="logout-btn" style="margin-bottom: 5px" class="dropdown-items">Log Out</p>
                         </div>
                     </div>
-                  </div>
-                </div>  
-              </nav>
-            <div id="profile-container" class="container" style="margin: 60px 0px 0px 210px;width: 945px;">
+                </div>
+              </div>
+            </div>  
+          </nav>
+
+          <div id="profile-container" class="container" style="margin: 80px auto;width: 70%;">
+              
+          </div>
+
+          <!-- Profile Posts Modal -->
+          <div class="modal fade" id="social-info-post-modal" tabindex="-1" role="dialog" aria-labelledby="social-info-post-modal" aria-hidden="true">
+            <div class="modal-dialog" style="max-width:1000px; width: 100%; padding: none; max-height: 600px; height: 100%">
+                <div class="modal-content row p-0" style="height: 100%">
+                    <div class="col-lg-9 col-md-7 col-sm-12 p-0 social-info-post-img" style="height: 100%">
                 
+                    </div>
+                    <div class="col-lg-3 col-md-5">
+                    
+                    </div>
+                </div>
             </div>
+          </div>
         </div>
     </body>
     <script src="../static/init.js"></script>
