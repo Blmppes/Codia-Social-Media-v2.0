@@ -39,8 +39,12 @@ const displayProfile = async (id, data, friends) => {
     
     if(id == currentId){
         html = `
-            <div id="profile-info-${id}" class="profile-info" style="padding: 3% 0px">
-                <img src="${data.avartar}" class="big-avartar responsive2">
+            <div id="profile-info-${id}" class="profile-info" style="padding: 3% 0px; position:relative">
+                <img src="${data.avartar}" class="big-avartar responsive2 cursor">
+                <div class="camera">
+                    <label for="avartar-change"><i class="fas fa-camera"></i></label>
+                    <input id="avartar-change" type="file" style="visibility:hidden;" accept="image/png, image/jpeg">
+                </div>
                 <div id="profile-info-text-${id}" style="display: block">
                     <div id="profile-info-text-name-${id}" class="profile-info-text-name" style="display: flex">
                         <h2 style="font-weight: 10;">${data.name}</h2>
@@ -71,11 +75,11 @@ const displayProfile = async (id, data, friends) => {
 
                 if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
                     html += `
-                    <img src="${img_url}" class="col-lg-4 col-md-6 col-sm-12" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'img')" data-toggle="modal" data-target="#social-info-post-modal"></img>
+                    <img src="${img_url}" class="col-lg-4 col-md-6 col-sm-12 cursor" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'img')" data-toggle="modal" data-target="#social-info-post-modal"></img>
                     `
                 }else if(extension == "mp4" || extension == "avi"){
                     html += `
-                    <video src="${img_url}"  class="col-lg-4 col-md-6 col-sm-12" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'video')" data-toggle="modal" data-target="#social-info-post-modal"></video>`
+                    <video src="${img_url}"  class="col-lg-4 col-md-6 col-sm-12 cursor" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'video')" data-toggle="modal" data-target="#social-info-post-modal"></video>`
                 }
             }) 
         })
@@ -148,6 +152,36 @@ const displayProfile = async (id, data, friends) => {
     }
 
     document.getElementById("profile-container").innerHTML += html;
+
+    $("#avartar-change").change(function() {
+        file = this.files[0]
+        // console.log(filename);
+
+        let storageRef = storage.ref('userAvartar/' + file.name);
+
+        let task = storageRef.put(file);
+
+        task.on('state_changed',
+            function progress(snapshot){},
+
+            function error(err){
+                console.log(err);
+            },
+
+            function complete(){
+                //Download Image
+
+                task.snapshot.ref.getDownloadURL().then(function(url) {
+                    db.collection("profile").doc(currentId).update({
+                        avartar: url
+                    })
+                }).catch(function(error) {  
+                    console.log(error);
+                });
+            }
+        )
+    });
+      
 }
 
 const displayPost = (data, id, friends) => {
@@ -217,5 +251,4 @@ const displayPost = (data, id, friends) => {
   
     postGroup.innerHTML += html;
 }
-
 

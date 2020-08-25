@@ -1,5 +1,3 @@
-var storage = firebase.storage();
-
 const uploadImage = () => {
 
     //Upload file to storage
@@ -21,8 +19,6 @@ const uploadImage = () => {
             //Download Image
 
             task.snapshot.ref.getDownloadURL().then(function(url) {
-                let lname = ""
-                let lavartar = "";
                 db.collection("profile").doc(currentId).get().then(doc => {
                     db.collection("post")
                     .add({

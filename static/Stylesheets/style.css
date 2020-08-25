@@ -125,10 +125,6 @@ body {
   height: 500px;
 }
 
-
-input[type="file"] {
-  display: none;
-}
 .custom-file-upload {
   border: 1px solid #ccc;
   display: inline-block;
@@ -218,4 +214,36 @@ input[type="file"] {
 .social-info-btn{
   border-top:1px solid black;
   font-size: 13px;
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+.camera{
+  position: absolute;
+  top: 24px;
+  left: 0px;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: black;
+  padding: 0px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.camera:hover{
+  opacity: 0.4;
+}
+
+.camera label{
+  position: absolute;
+  top: 30%;
+  left: 38%;
+  height: 47%;
+  font-size: 40px;
+  color: rgb(228, 228, 228);
+  cursor: pointer;
 }
