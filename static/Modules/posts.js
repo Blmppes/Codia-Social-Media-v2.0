@@ -3,14 +3,13 @@ document.getElementById("profile-btn").addEventListener('click', () => {
 })
 
 const changeProfileId = (id, status) => {
-    console.log(id)
     if(status == 'p'){
         localStorage.setItem('profileId', id) 
-        setTimeout(() => {
-            window.location = "profile.html"
-        },1000)
+        window.location = "profile.html"
     }else{
+        console.log("Hello")
         localStorage.setItem('profileId', id) 
+        window.location = "profile.html"
     }
 }
 
@@ -33,6 +32,34 @@ const displayProfilePostsModal = (id, data, friend, img_url, status) => {
     }
 }
 
+const appearFollowUsers = (type, data) => {
+    list = document.getElementById("follow-user-list")
+    list.innerHTML = ""
+
+    if(type == "following"){
+        list.parentElement.childNodes[1].innerHTML = "Followings"
+    }else{
+        list.parentElement.childNodes[1].innerHTML = "Followers"
+    }
+
+    if(data.length == 0){
+        return;
+    }
+    data = data.split(',')
+
+    data.forEach(async user =>{
+        await db.collection("profile").doc(user).get().then(doc => {
+            list.innerHTML += `
+                <li class="follow-user-list-item btn" style="display: flex">
+                    <img class="small-avartar" src="${doc.data().avartar}" alt="user avartar"/>
+                    <h1 class="lead">${doc.data().name}</h1>
+                    <button class="btn btn-primary post-follow-btn-${doc.id}" style="font-size: 12px;padding: 3px;position:absolute;right:10px" onclick="followFunction('${doc.id}')">+ Follow</button>
+                </li>
+            `
+        })
+    })
+}
+
 const displayProfile = async (id, data, friends) => {
     console.log(window.innerWidth)
     let html = ``
@@ -52,8 +79,12 @@ const displayProfile = async (id, data, friends) => {
                         <i class="fas fa-cog my-auto" style="font-size: 20px"></i>
                     </div>
                     <ul id="profile-info-text-social-${id}" class="mt-3" style="display: flex">
-                        <li ><span>${data.friends.length}</span>  following</li>
-                        <li class="mx-auto"><span>${data.followers.length}</span>  followers</li>
+                        <li onclick="appearFollowUsers('following', '${data.friends}')" data-toggle="modal"                            data-target="#follow-user-modal">
+                            <span>${data.friends.length}</span>  following
+                        </li>
+                        <li onclick="appearFollowUsers('follower', '${data.followers}')" class="mx-auto" data-toggle="modal" data-target="#follow-user-modal">
+                            <span>${data.followers.length}</span>  followers
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +132,7 @@ const displayProfile = async (id, data, friends) => {
         }else{
             classFollowOrNot = "btn btn-primary post-follow-btn-${id} mx-3";
             followOrNot = "Follow"
-            followBool = "followFunction('${id}')"
+            followBool = `followFunction('${id}')`
         }
         
         html = `
@@ -113,8 +144,12 @@ const displayProfile = async (id, data, friends) => {
                     <button class="${classFollowOrNot}" style="font-size: 13px;padding: 0px 5px" onclick="${followBool}">${followOrNot}</button>
                 </div>
                 <ul id="profile-info-text-social-${id}" class="mt-3" style="display: flex">
-                    <li><span>${data.friends.length}</span>  following</li>
-                    <li class="mx-auto"><span>${data.followers.length}</span>  followers</li>
+                    <li onclick="appearFollowUsers('following', '${data.friends}')" data-toggle="modal"                            data-target="#follow-user-modal">
+                        <span>${data.friends.length}</span>  following
+                    </li>
+                    <li onclick="appearFollowUsers('follower', '${data.followers}')" class="mx-auto" data-toggle="modal" data-target="#follow-user-modal">
+                        <span>${data.followers.length}</span>  followers
+                    </li>
                 </ul>
             </div>
         </div>

@@ -26,8 +26,6 @@ const updateToFirestore = (docId, userid, type) => {
                 'comments': firebase.firestore.FieldValue.arrayUnion({
                     id: userid,
                     value: val,
-                    name: doc.data().name,
-                    avartar: doc.data().avartar
                 })
             });
         })
@@ -39,26 +37,27 @@ const updateLikeBtn = (id, data) => {
 }
 
 const updateComments = (id, data, friends) => {
-    let commentList = document.getElementById(`comments-${id}`);
-
-    let subHtml = ""
-
     data.comments.forEach((ele) =>{
-        subHtml += `
-        <li style="display: flex">
-            <img src='${ele["avartar"]}' class="small-avartar"/>
-            <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${ele["name"]}</p>
-        `
-        console.log(friends)
-        if(!(friends.includes(ele['id'])) && currentId != ele['id']){
-            console.log(currentId, ele['id'])
-            subHtml += `<button class="btn btn-primary post-follow-btn-${data.userId}" style="margin-left: 10px;font-size: 10px;padding: 3px;height: fit-content" onclick="followFunction('${data.userId}')">+ Follow</button>`;
-        };
-        subHtml += `
-        </li>
-        <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
-        `;
-    });
+        let commentList = document.getElementById(`comments-${id}`);
+        let subHtml = ""
 
-    commentList.innerHTML = subHtml;
+        db.collection("profile").doc(ele['id']).get().then(doc =>{
+            subHtml += `
+                <li style="display: flex">
+                    <img src='${doc.data().avartar}' class="small-avartar"/>
+                    <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${doc.data().name}</p>
+            `
+        
+            if(!(friends.includes(ele['id'])) && currentId != ele['id']){
+                console.log(currentId, ele['id'])
+                subHtml += `<button class="btn btn-primary post-follow-btn-${data.userId}" style="margin-left: 10px;font-size: 10px;padding: 3px;height: fit-content" onclick="followFunction('${data.userId}')">+ Follow</button>`;
+            };
+            subHtml += `
+                </li>
+                <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
+            `;
+            
+            commentList.innerHTML = subHtml;
+        })
+    });
 }
