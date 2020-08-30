@@ -66,9 +66,8 @@ const updateComments = (id, data, friends) => {
     });
 }
 
-const updateComments2 = (id, data, friends, followers) => {
-    console.log(data.comments)
-    let commentList = document.getElementById(`social-info-post-others-textbox-${id}`);
+const updateComments2 = (id, docId, data, friends, followers) => {
+    let commentList = document.getElementById(`social-info-post-others-textbox-${docId}`);
     commentList.innerHTML = "";
     data.comments.forEach((ele) =>{
         var subHtml = "";
@@ -78,12 +77,12 @@ const updateComments2 = (id, data, friends, followers) => {
                     <img src='${doc.data().avartar}' class="small-avartar"/>
                     <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${doc.data().name}</p>
             `
-            let {classFollowOrNot,followOrNot,followBool} = followConditions(id, friends, followers)
+            let {classFollowOrNot,followOrNot,followBool} = followConditions(doc.id, friends, followers)
             subHtml += `<button class="${classFollowOrNot} py-0 px-1 m-0" style="font-size: 10px;" onclick="${followBool}">${followOrNot}</button>`;
           
             subHtml += `
                 </li>
-                <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
+                <h6 id="comment-${docId}" class="comment">${ele["value"]}</h6>
             `;
             commentList.innerHTML += subHtml;
         })

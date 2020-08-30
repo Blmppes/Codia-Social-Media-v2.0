@@ -19,7 +19,7 @@ db.collection("post").orderBy('timestamp').onSnapshot(function (snapshot) {
       else if(change.type == "modified"){
         await db.collection("profile").doc(localStorage.getItem('profileId')).get().then(innerdoc => {
           updateLikeBtn(change.doc.id, change.doc.data().like)
-          updateComments2(change.doc.id, change.doc.data(), innerdoc.data().friends, innerdoc.data().followers);
+          updateComments2(innerdoc.id, change.doc.id ,change.doc.data(), innerdoc.data().friends, innerdoc.data().followers);
         })
       }       
     });

@@ -3,11 +3,17 @@ document.getElementById("profile-btn").addEventListener('click', () => {
 })
 
 const followConditions = (id, friends, followers) => {
+    console.log(id, currentId)
     let classFollowOrNot = ""
     let followOrNot = ""
     let followBool = ""
 
-    if(friends.includes(currentId) || followers.includes(currentId)){
+    if(currentId == id) {
+        classFollowOrNot = `btn btn-grey mx-3`;
+        return {classFollowOrNot, followOrNot, followBool}
+    }
+
+    if(friends.includes(currentId) || followers.includes(currentId)) {
         classFollowOrNot = `btn btn-grey border border-light post-follow-btn-${id} mx-3`;
         followOrNot = "Followed"
     }else{
@@ -15,8 +21,6 @@ const followConditions = (id, friends, followers) => {
         followOrNot = "Follow"
         followBool = `followFunction('${id}')`
     }
-    
-    console.log(classFollowOrNot, followOrNot, followBool)
 
     return {classFollowOrNot, followOrNot, followBool}
 }
@@ -36,7 +40,6 @@ const changeProfileId = (id, status) => {
         localStorage.setItem('profileId', id) 
         window.location = "profile.html"
     }else{
-        console.log("Hello")
         localStorage.setItem('profileId', id) 
         window.location = "profile.html"
     }
@@ -95,7 +98,7 @@ const displayProfilePostsModal = (docId, data, id, name, avartar, followers, fri
     data = {
         comments: comment
     }
-    updateComments2(docId, data, friends, followers);
+    updateComments2(id, docId, data, friends, followers);
 }
 
 const appearFollowUsers = (type, data) => {
@@ -114,6 +117,7 @@ const appearFollowUsers = (type, data) => {
     data = data.split(',')
 
     data.forEach(async user =>{
+        console.log(user)
         await db.collection("profile").doc(user).get().then(doc => {
             list.innerHTML += `
                 <li class="follow-user-list-item btn" style="display: flex">
@@ -127,7 +131,6 @@ const appearFollowUsers = (type, data) => {
 }
 
 const displayProfile = async (id, data, friends) => {
-    console.log(window.innerWidth)
     let html = ``
     
     if(id == currentId){
@@ -183,7 +186,7 @@ const displayProfile = async (id, data, friends) => {
                     img.dataset.toggle = "modal"
                     img.dataset.target = "#social-info-post-modal"
                     img.onclick = () => {
-                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
                         friends, img_url, 'img', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(img)
@@ -197,7 +200,7 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.toggle = "modal"
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
-                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
                         friends, img_url, 'img', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
@@ -254,7 +257,7 @@ const displayProfile = async (id, data, friends) => {
                     img.dataset.toggle = "modal"
                     img.dataset.target = "#social-info-post-modal"
                     img.onclick = () => {
-                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
                         friends, img_url, 'img', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(img)
@@ -268,7 +271,7 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.toggle = "modal"
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
-                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
                         friends, img_url, 'img', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
@@ -279,7 +282,6 @@ const displayProfile = async (id, data, friends) => {
 
     $("#avartar-change").change(function() {
         file = this.files[0]
-        // console.log(filename);
 
         let storageRef = storage.ref('userAvartar/' + file.name);
 
@@ -336,7 +338,7 @@ const displayPost = (data, id, friends) => {
     `
     let extension = data.imageUrl.split("?")[0];
     extension = extension.substring(extension.length - 3, extension.length)
-    console.log(extension)
+
     if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
         html += `
         <img class="card-img-top responsive" src="${data.imageUrl}" alt="Card image cap" width="600px" height="400px"></img>
@@ -346,9 +348,9 @@ const displayPost = (data, id, friends) => {
         <video class="card-img-top responsive" width="600px" height="400px" src="${data.imageUrl}" controls></video>`
     }
                
-    html += `        
-            <h5 style="margin: 5px; border: 0.5px solid black; border-radius: 5px; padding: 5px">${data.text}</h5>
-            <div id="other-function" style="display:flex; padding: 13px 5px 0px 5px">
+    html += `       
+            <h6 class="lead m-2 p-1 border-top">${data.text}</h5>
+            <div id="other-function" class="border-top" style="display:flex; padding: 13px 5px 0px 5px">
                 <i id="heart-${id}" class="${heartClassName} ml-auto" style="font-size: 20px; color:red; cursor: pointer" onclick="updateToFirestore('${id}', '${currentId}', 'like', 'ml-auto')"></i>
                 <span class="ml-1 mr-auto" style="font-size: 15px" id="like-${id}">${data.like} likes</span>
                 <i style="cursor: pointer" class="far fa-comment-dots ml-auto" onclick="openCommentBox()"></i>
