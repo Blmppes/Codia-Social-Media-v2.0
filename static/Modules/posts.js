@@ -3,7 +3,6 @@ document.getElementById("profile-btn").addEventListener('click', () => {
 })
 
 const followConditions = (id, friends, followers) => {
-    console.log(id, currentId)
     let classFollowOrNot = ""
     let followOrNot = ""
     let followBool = ""
@@ -123,7 +122,6 @@ const appearFollowUsers = (type, data) => {
                 <li class="follow-user-list-item btn" style="display: flex">
                     <img class="small-avartar" src="${doc.data().avartar}" alt="user avartar"/>
                     <h1 class="lead">${doc.data().name}</h1>
-                    <button class="btn btn-primary post-follow-btn-${doc.id}" style="font-size: 12px;padding: 3px;position:absolute;right:10px" onclick="followFunction('${doc.id}')">+ Follow</button>
                 </li>
             `
         })
@@ -201,7 +199,7 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'img', doc.data().comments)
+                        friends, img_url, 'video', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
@@ -261,9 +259,8 @@ const displayProfile = async (id, data, friends) => {
                         friends, img_url, 'img', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(img)
-
                 }else if(extension == "mp4" || extension == "avi"){
-                    video = document.createElement("video");
+                    video = document.createElement("img");
 
                     video.src = img_url
                     video.className = "col-lg-4 col-md-6 col-sm-12"
@@ -271,8 +268,9 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.toggle = "modal"
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
+                        console.log('video')
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'img', doc.data().comments)
+                        friends, img_url, 'video', doc.data().comments)
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
