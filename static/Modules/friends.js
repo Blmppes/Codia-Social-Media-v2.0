@@ -39,4 +39,5 @@ const followFunction = (uid) => {
     btn[i].innerHTML = "Followed"
     btn[i].className = `btn btn-light post-follow-btn-${uid}`
   } 
+  console.log("follow")
 }

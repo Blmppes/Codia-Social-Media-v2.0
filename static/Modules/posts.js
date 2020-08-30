@@ -2,6 +2,35 @@ document.getElementById("profile-btn").addEventListener('click', () => {
     changeProfileId(currentId, 'n')
 })
 
+const followConditions = (id, friends, followers) => {
+    let classFollowOrNot = ""
+    let followOrNot = ""
+    let followBool = ""
+
+    if(friends.includes(currentId) || followers.includes(currentId)){
+        classFollowOrNot = `btn btn-grey border border-light post-follow-btn-${id} mx-3`;
+        followOrNot = "Followed"
+    }else{
+        classFollowOrNot = `btn btn-primary post-follow-btn-${id} mx-3`;
+        followOrNot = "Follow"
+        followBool = `followFunction('${id}')`
+    }
+    
+    console.log(classFollowOrNot, followOrNot, followBool)
+
+    return {classFollowOrNot, followOrNot, followBool}
+}
+
+const redOrGrey = (data) => {
+    let heartClassName = "";
+    if(data.liked.includes(currentId)){
+        heartClassName = "fas fa-heart"
+    }else{
+        heartClassName = "far fa-heart"
+    }
+    return heartClassName
+}
+
 const changeProfileId = (id, status) => {
     if(status == 'p'){
         localStorage.setItem('profileId', id) 
@@ -22,14 +51,51 @@ const openCommentBox = (id) => {
     }
 }
 
-const displayProfilePostsModal = (id, data, friend, img_url, status) => {
+const displayProfilePostsModal = (docId, data, id, name, avartar, followers, friends, img_url, status, comment) => {
+    let others = document.getElementsByClassName('social-info-post-others')[0];
+    let img = document.getElementsByClassName('social-info-post-img')[0]
+    let {classFollowOrNot,followOrNot,followBool} = followConditions(id, friends, followers);
+    let heartClassName = redOrGrey(data);
+
     if(status == 'img'){
-        document.getElementsByClassName('social-info-post-img')[0].innerHTML = `
-        <img class="responsize" src="${img_url}" style="width: 100%; height: 100%">`
+        img.innerHTML = `<img class="responsize" src="${img_url}" style="width: 100%; height: 100%">`
     }else{
-        document.getElementsByClassName('social-info-post-img')[0].innerHTML = `
-        <video class="responsize" src="${img_url}" style="width: 100%; height: 100%" controls autoplay repeat>`
+        img.innerHTML = `<video class="responsize" src="${img_url}" style="width: 100%; height: 100%" controls autoplay repeat>`
     }
+
+    let subhtml = `
+        <div id="social-info-post-others-header" class="p-3 border-bottom" style="display: flex;">
+            <img id="social-info-post-others-img-${docId}" class="small-avartar" src="${avartar}" alt="user-avartar">
+            <h1 class="lead" id="social-info-post-others-name-${docId}">${name}</h1>
+            <button class="${classFollowOrNot}" style="font-size: 10px;padding: 0px 3px" onclick="${followBool}">${followOrNot}</button>
+        </div>
+        <ul id="social-info-post-others-textbox-${docId}" class="m-2">
+            
+        </ul>
+        <div id="social-info-post-others-inputs" style="position: absolute;bottom: -2.5%;width:100%;">
+            <div id="social-info-post-others-inputs-btns" class="p-3 border-top">
+                <div id="social-info-post-others-inputs-btns-1" style="display: flex;font-size:25px;">
+                    <i id="heart-${docId}" class="${heartClassName} mr-1" style="cursor: pointer;color:red" onclick="updateToFirestore('${docId}', '${currentId}', 'like', 'mr-1')"></i>
+                    <i class="far fa-paper-plane mr-3"></i>
+                    <i class="far fa-comment "></i>
+                    <i class="far fa-bookmark ml-auto" style="float: right"></i>
+                </div>
+                <h1 class="mt-2" style="font-size: 15px" id="like-${docId}">${data.like} likes</h1>
+            </div>
+            <div id="social-info-post-others-inputs-input_field" class="input-group mb-3">
+                <input type="text" class="form-control" id="social-info-post-others-inputs-input_field-commentIp-${docId}" placeholder="Add a comment..."/>
+                <div class="input-group-append" style="cursor:pointer">
+                    <span class="input-group-text" id="social-info-post-others-inputs-input_field-post_btn" onclick="updateToFirestore('${docId}', '${currentId}','comment')">Post</span>
+                </div>
+            </div>
+        </div>
+    `
+    others.innerHTML = subhtml;
+
+    data = {
+        comments: comment
+    }
+    updateComments2(docId, data, friends, followers);
 }
 
 const appearFollowUsers = (type, data) => {
@@ -79,7 +145,7 @@ const displayProfile = async (id, data, friends) => {
                         <i class="fas fa-cog my-auto" style="font-size: 20px"></i>
                     </div>
                     <ul id="profile-info-text-social-${id}" class="mt-3" style="display: flex">
-                        <li onclick="appearFollowUsers('following', '${data.friends}')" data-toggle="modal"                            data-target="#follow-user-modal">
+                        <li onclick="appearFollowUsers('following', '${data.friends}')" data-toggle="modal" data-target="#follow-user-modal">
                             <span>${data.friends.length}</span>  following
                         </li>
                         <li onclick="appearFollowUsers('follower', '${data.followers}')" class="mx-auto" data-toggle="modal" data-target="#follow-user-modal">
@@ -94,8 +160,12 @@ const displayProfile = async (id, data, friends) => {
                     <button id="social-info-igtv-btn-${id}" class="btn btn-light social-info-btn">IGTV</button>
                     <button id="social-info-tagged-btn-${id}" class="btn btn-light mr-auto social-info-btn">TAGGED</button>
                 </nav>
-                <div id="social-info-posts" class="row">        
+                <div id="social-info-posts-${id}" class="row">        
+                </div>
+            </div>
         `
+        document.getElementById("profile-container").innerHTML += html;
+        html = ""
 
         await db.collection("post").where("userId", "==", id).get().then(snapshot => {
             snapshot.forEach(doc => {
@@ -105,35 +175,37 @@ const displayProfile = async (id, data, friends) => {
                 extension = extension.substring(extension.length - 3, extension.length)
 
                 if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
-                    html += `
-                    <img src="${img_url}" class="col-lg-4 col-md-6 col-sm-12 cursor" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'img')" data-toggle="modal" data-target="#social-info-post-modal"></img>
-                    `
+                    img = document.createElement("img");
+
+                    img.src = img_url
+                    img.className = "col-lg-4 col-md-6 col-sm-12"
+                    img.id = `social-info-post-${doc.id}`
+                    img.dataset.toggle = "modal"
+                    img.dataset.target = "#social-info-post-modal"
+                    img.onclick = () => {
+                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        friends, img_url, 'img', doc.data().comments)
+                    }
+                    document.getElementById(`social-info-posts-${id}`).appendChild(img)
+
                 }else if(extension == "mp4" || extension == "avi"){
-                    html += `
-                    <video src="${img_url}"  class="col-lg-4 col-md-6 col-sm-12 cursor" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'video')" data-toggle="modal" data-target="#social-info-post-modal"></video>`
+                    video = document.createElement("video");
+
+                    video.src = img_url
+                    video.className = "col-lg-4 col-md-6 col-sm-12"
+                    video.id = `social-info-post-${doc.id}`
+                    video.dataset.toggle = "modal"
+                    video.dataset.target = "#social-info-post-modal"
+                    video.onclick = () => {
+                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        friends, img_url, 'img', doc.data().comments)
+                    }
+                    document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
             }) 
         })
-
-        html += `
-                    </div>
-                </div>
-            `
     }else{
-        let classFollowOrNot = ""
-        let followOrNot = ""
-        let followBool = ""
-
-        console.log(friends, id)
-
-        if(friends.includes(currentId)){
-            classFollowOrNot = "btn btn-grey border border-light post-follow-btn-${id} mx-3";
-            followOrNot = "Followed"
-        }else{
-            classFollowOrNot = "btn btn-primary post-follow-btn-${id} mx-3";
-            followOrNot = "Follow"
-            followBool = `followFunction('${id}')`
-        }
+        let {classFollowOrNot,followOrNot,followBool} = followConditions(id, friends, data.followers)
         
         html = `
         <div id="profile-info-${id}" class="profile-info" style="padding: 3% 0px">
@@ -154,13 +226,17 @@ const displayProfile = async (id, data, friends) => {
             </div>
         </div>
         <div id="social-info-${id}" class="social-info">
-                <nav class="navbar navbar-expand-lg border-top border-top-secondary p-0">
-                    <button id="social-info-posts-btn-${id}" class="btn btn-light ml-auto social-info-btn">POSTS</button>
-                    <button id="social-info-igtv-btn-${id}" class="btn btn-light social-info-btn">IGTV</button>
-                    <button id="social-info-tagged-btn-${id}" class="btn btn-light mr-auto social-info-btn">TAGGED</button>
-                </nav>
-                <div id="social-info-posts" class="row">        
+            <nav class="navbar navbar-expand-lg border-top border-top-secondary p-0">
+                <button id="social-info-posts-btn-${id}" class="btn btn-light ml-auto social-info-btn">POSTS</button>
+                <button id="social-info-igtv-btn-${id}" class="btn btn-light social-info-btn">IGTV</button>
+                <button id="social-info-tagged-btn-${id}" class="btn btn-light mr-auto social-info-btn">TAGGED</button>
+            </nav>
+            <div id="social-info-posts-${id}" class="row">   
+            </div>
+        </div>     
         `
+
+        document.getElementById("profile-container").innerHTML += html;
 
         await db.collection("post").where("userId", "==", id).get().then(snapshot => {
             snapshot.forEach(doc => {
@@ -170,23 +246,36 @@ const displayProfile = async (id, data, friends) => {
                 extension = extension.substring(extension.length - 3, extension.length)
 
                 if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
-                    html += `
-                    <img src="${img_url}" class="col-lg-4 col-md-6 col-sm-12" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'img')" data-toggle="modal" data-target="#social-info-post-modal"></img>
-                    `
+                    img = document.createElement("img");
+
+                    img.src = img_url
+                    img.className = "col-lg-4 col-md-6 col-sm-12"
+                    img.id = `social-info-post-${doc.id}`
+                    img.dataset.toggle = "modal"
+                    img.dataset.target = "#social-info-post-modal"
+                    img.onclick = () => {
+                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        friends, img_url, 'img', doc.data().comments)
+                    }
+                    document.getElementById(`social-info-posts-${id}`).appendChild(img)
+
                 }else if(extension == "mp4" || extension == "avi"){
-                    html += `
-                    <video src="${img_url}"  class="col-lg-4 col-md-6 col-sm-12" id="social-info-post-${doc.id}" onclick="displayProfilePostsModal('${id}', '${data}', '${friends}', '${img_url}', 'video')" data-toggle="modal" data-target="#social-info-post-modal"></video>`
+                    video = document.createElement("video");
+
+                    video.src = img_url
+                    video.className = "col-lg-4 col-md-6 col-sm-12"
+                    video.id = `social-info-post-${doc.id}`
+                    video.dataset.toggle = "modal"
+                    video.dataset.target = "#social-info-post-modal"
+                    video.onclick = () => {
+                        displayProfilePostsModal(doc.id, id, data.name, data.avartar, data.followers,
+                        friends, img_url, 'img', doc.data().comments)
+                    }
+                    document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
             }) 
         })
-
-        html += `
-                    </div>
-                </div>
-        `
     }
-
-    document.getElementById("profile-container").innerHTML += html;
 
     $("#avartar-change").change(function() {
         file = this.files[0]
@@ -221,12 +310,7 @@ const displayProfile = async (id, data, friends) => {
 
 const displayPost = (data, id, friends) => {
     //Check if this user has liked or not
-    let heartClassName = ""
-    if(data.liked.includes(currentId)){
-      heartClassName = "fas fa-heart"
-    }else{
-      heartClassName = "far fa-heart"
-    }
+    let heartClassName = redOrGrey(data)
   
     //If the content is undefined
     text = data.text
@@ -265,7 +349,7 @@ const displayPost = (data, id, friends) => {
     html += `        
             <h5 style="margin: 5px; border: 0.5px solid black; border-radius: 5px; padding: 5px">${data.text}</h5>
             <div id="other-function" style="display:flex; padding: 13px 5px 0px 5px">
-                <i id="heart-${id}" class="${heartClassName} ml-auto" style="font-size: 20px; color:red; cursor: pointer" onclick="updateToFirestore('${id}', '${currentId}', 'like')"></i>
+                <i id="heart-${id}" class="${heartClassName} ml-auto" style="font-size: 20px; color:red; cursor: pointer" onclick="updateToFirestore('${id}', '${currentId}', 'like', 'ml-auto')"></i>
                 <span class="ml-1 mr-auto" style="font-size: 15px" id="like-${id}">${data.like} likes</span>
                 <i style="cursor: pointer" class="far fa-comment-dots ml-auto" onclick="openCommentBox()"></i>
                 <h6 class="mr-auto ml-1" onclick="openCommentBox('${id}')" style="cursor: pointer">Comments</h6>

@@ -1,4 +1,4 @@
-const updateToFirestore = (docId, userid, type) => {
+const updateToFirestore = (docId, userid, type, type2) => {
     if(type == "like"){
         db.collection("post").doc(docId).get().then((doc) => {
             console.log(doc.data().liked, userid)
@@ -8,18 +8,23 @@ const updateToFirestore = (docId, userid, type) => {
                     like: firebase.firestore.FieldValue.increment(-1),
                     liked: firebase.firestore.FieldValue.arrayRemove(userid)
                 })
-                document.getElementById(`heart-${docId}`).className = "far fa-heart ml-auto";
+                document.getElementById(`heart-${docId}`).className = `far fa-heart ${type2}`;
             }else{
                 db.collection("post").doc(docId).update({
                     like: firebase.firestore.FieldValue.increment(1),
                     liked: firebase.firestore.FieldValue.arrayUnion(userid)
                 })
-                document.getElementById(`heart-${docId}`).className = "fas fa-heart ml-auto";
+                document.getElementById(`heart-${docId}`).className = `fas fa-heart ${type2}`;
             }
         })
     }else{
-        let val = document.getElementById(`commentIp-${docId}`).value;
-        let random = Math.floor(Math.random() * 10000000);
+        let val = null;
+
+        if(document.getElementById(`commentIp-${docId}`)){
+            val = document.getElementById(`commentIp-${docId}`).value;
+        }else{
+            val = document.getElementById(`social-info-post-others-inputs-input_field-commentIp-${docId}`).value;
+        };
 
         db.collection("profile").doc(userid).get().then(doc => {
             db.collection("post").doc(docId).update({
@@ -37,13 +42,13 @@ const updateLikeBtn = (id, data) => {
 }
 
 const updateComments = (id, data, friends) => {
+    let commentList = document.getElementById(`comments-${id}`);
+    commentList.innerHTML = "";
     data.comments.forEach((ele) =>{
-        let commentList = document.getElementById(`comments-${id}`);
-        let subHtml = ""
-
+        var subHtml = "";
         db.collection("profile").doc(ele['id']).get().then(doc =>{
             subHtml += `
-                <li style="display: flex">
+                <li style="display: flex;text-decoration:none">
                     <img src='${doc.data().avartar}' class="small-avartar"/>
                     <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${doc.data().name}</p>
             `
@@ -56,8 +61,31 @@ const updateComments = (id, data, friends) => {
                 </li>
                 <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
             `;
-            
-            commentList.innerHTML = subHtml;
+            commentList.innerHTML += subHtml;
+        })
+    });
+}
+
+const updateComments2 = (id, data, friends, followers) => {
+    console.log(data.comments)
+    let commentList = document.getElementById(`social-info-post-others-textbox-${id}`);
+    commentList.innerHTML = "";
+    data.comments.forEach((ele) =>{
+        var subHtml = "";
+        db.collection("profile").doc(ele['id']).get().then(doc =>{
+            subHtml += `
+                <li style="display: flex;text-decoration:none">
+                    <img src='${doc.data().avartar}' class="small-avartar"/>
+                    <p class="lead" onclick="changeProfileId('${ele['id']}', 'p')">${doc.data().name}</p>
+            `
+            let {classFollowOrNot,followOrNot,followBool} = followConditions(id, friends, followers)
+            subHtml += `<button class="${classFollowOrNot} py-0 px-1 m-0" style="font-size: 10px;" onclick="${followBool}">${followOrNot}</button>`;
+          
+            subHtml += `
+                </li>
+                <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
+            `;
+            commentList.innerHTML += subHtml;
         })
     });
 }
