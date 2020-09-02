@@ -1,7 +1,12 @@
 db.collection("post").orderBy('timestamp').onSnapshot(function (snapshot) {
     snapshot.docChanges().forEach(async function (change) {
       if(change.type == "added"){
-        db.collection("profile").doc(localStorage.getItem('profileId')).get().then(innerdoc => {
+        await db.collection("profile").doc(currentId).get().then(doc => {
+          if(!(change.doc.data().read.includes(currentId)) && doc.data().friends.includes(change.doc.data().userId)){
+            showNotification(change.doc.id, change.doc.data());
+          }
+        })
+        await db.collection("profile").doc(localStorage.getItem('profileId')).get().then(innerdoc => {
             let img_url = change.doc.data().imageUrl
 
             let extension = img_url.split("?")[0];
@@ -29,7 +34,6 @@ db.collection("post").orderBy('timestamp').onSnapshot(function (snapshot) {
 let inter = setInterval(() => {
     try{
         db.collection("profile").doc(localStorage.getItem('profileId')).get().then(innerdoc => {
-            console.log(localStorage.getItem('profileId'))
             displayProfile(innerdoc.id, innerdoc.data(), innerdoc.data().followers);
         })
         clearInterval(inter);

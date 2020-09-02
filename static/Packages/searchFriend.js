@@ -5,7 +5,6 @@ searchFriendInput.addEventListener("keyup", (event) => {
     db.collection("profile").get().then((snapshot) => {
         suggestionList.innerHTML = "";
         snapshot.forEach(doc => {
-            console.log(searchFriendInput.value.toLowerCase(), doc.data().name.substring(0, searchFriendInput.value.length).toLowerCase())
             if(searchFriendInput.value != ""){
                 if(searchFriendInput.value.toLowerCase() == doc.data().name.substring(0, searchFriendInput.value.length).toLowerCase()){
                     let li = document.createElement("li");
@@ -24,7 +23,6 @@ searchFriendInput.addEventListener("keyup", (event) => {
                     li.appendChild(avartar)
                     li.appendChild(name)
                     suggestionList.appendChild(li)
-                    console.log(suggestionList)
                 }
             }else{
                 suggestionList.innerHTML = '';

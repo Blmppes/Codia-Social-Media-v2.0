@@ -2,7 +2,6 @@ const uploadImage = () => {
 
     //Upload file to storage
     let file = FILE.files[0];
-    console.log(file)
 
     let storageRef = storage.ref('pictures/' + file.name);
 
@@ -31,7 +30,8 @@ const uploadImage = () => {
                         caption: postCaption.value,
                         like: 0,
                         liked: [],
-                        comments: []
+                        comments: [],
+                        read: [currentId]
                     })
                     .catch(function (error) {
                         console.error("Error adding document: ", error);

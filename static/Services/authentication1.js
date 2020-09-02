@@ -10,12 +10,6 @@ const loginBtn = document.getElementById("login-btn");
 const signUpNow = document.getElementById("sign-up-now");
 const signInNow = document.getElementById("sign-in-now");
 
-// try{
-//     
-// }catch{
-//     console.log("...")
-// }
-
 try{
     signInNow.onclick = () => {
         window.location = 'login.html'
@@ -37,7 +31,6 @@ try{
         auth
         .createUserWithEmailAndPassword(registerEmail.value, registerPassword.value)
         .then((data) => {
-            console.log("abc")
             db.collection("profile").doc(data.user.uid).set({
                 name: username.value,
                 avartar: "https://www.epicentrofestival.com/wp-content/uploads/2019/12/Person-Clipart-Person-Clip-Art-Image-Clip-Art-Library-Hypertext-Transfer-Protocol-720x962.jpg",

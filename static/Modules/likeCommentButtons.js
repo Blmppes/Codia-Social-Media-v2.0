@@ -1,8 +1,6 @@
 const updateToFirestore = (docId, userid, type, type2) => {
     if(type == "like"){
         db.collection("post").doc(docId).get().then((doc) => {
-            console.log(doc.data().liked, userid)
-    
             if(doc.data().liked.includes(userid)){
                 db.collection("post").doc(docId).update({
                     like: firebase.firestore.FieldValue.increment(-1),
@@ -54,11 +52,11 @@ const updateComments = (id, data, friends) => {
             `
         
             if(!(friends.includes(ele['id'])) && currentId != ele['id']){
-                console.log(currentId, ele['id'])
                 subHtml += `<button class="btn btn-primary post-follow-btn-${data.userId}" style="margin-left: 10px;font-size: 10px;padding: 3px;height: fit-content" onclick="followFunction('${data.userId}')">+ Follow</button>`;
             };
             subHtml += `
                 </li>
+                <h6 class="mb-2" style="font-size: 12px;font-weight: light;">${data.timestamp.toDate()}</h6>
                 <h6 id="comment-${id}" class="comment">${ele["value"]}</h6>
             `;
             commentList.innerHTML += subHtml;
@@ -82,6 +80,7 @@ const updateComments2 = (id, docId, data, friends, followers) => {
           
             subHtml += `
                 </li>
+                <h6 class="mb-2" style="font-size: 12px;font-weight: light;">${data.timestamp.toDate()}</h6>
                 <h6 id="comment-${docId}" class="comment">${ele["value"]}</h6>
             `;
             commentList.innerHTML += subHtml;

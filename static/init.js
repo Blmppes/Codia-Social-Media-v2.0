@@ -12,6 +12,7 @@ const postCaption = document.getElementById("caption")
 
 let currentChat = "";
 let currentId = null;
+let friendsSuggestionList = document.getElementById("friendsSuggestionList");
 
 // Your web app's Firebase configuration
 var firebaseConfig = {

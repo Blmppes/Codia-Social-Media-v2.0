@@ -8,15 +8,27 @@ document.getElementById("profile-dropdown").onclick = () => {
     }
 }
 
-auth.onAuthStateChanged(function(user) {  
-    console.log("abc")
-    if (user && user.uid != currentId) {  
-        console.log(user.uid)
-        db.collection("profile").doc(user.uid).get().then((snapshot) => {
-            document.getElementById("profile-dropdown-pic").src = snapshot.data().avartar
-        })
+document.getElementById("profile-notification-dropdown-btn").onclick = () => {
+    if(document.getElementById("profile-notification-dropdown-menu").style.display == "none"){
+        document.getElementById("profile-notification-dropdown-menu").style.display = "block"
+    }else{
+        document.getElementById("profile-notification-dropdown-menu").style.display = "none"
+    }
+}
 
-        currentId = user.uid;  
+auth.onAuthStateChanged(function(user) {  
+    if (user && user.uid != currentId) {  
+        currentId = user.uid;
+
+        db.collection("profile").doc(user.uid).get().then((doc) => {
+            document.getElementById("profile-dropdown-pic").src = doc.data().avartar
+            try{
+                suggestFriends(doc.id, doc.data());
+            }catch{
+                console.log("nothing")
+            }
+        }) 
+
         if(window.location == "index.html"){
             localStorage.setItem('profileId', user.uid)
         }

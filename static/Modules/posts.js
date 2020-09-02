@@ -53,7 +53,7 @@ const openCommentBox = (id) => {
     }
 }
 
-const displayProfilePostsModal = (docId, data, id, name, avartar, followers, friends, img_url, status, comment) => {
+const displayProfilePostsModal = (docId, data, id, name, avartar, followers, friends, img_url, status) => {
     let others = document.getElementsByClassName('social-info-post-others')[0];
     let img = document.getElementsByClassName('social-info-post-img')[0]
     let {classFollowOrNot,followOrNot,followBool} = followConditions(id, friends, followers);
@@ -94,9 +94,6 @@ const displayProfilePostsModal = (docId, data, id, name, avartar, followers, fri
     `
     others.innerHTML = subhtml;
 
-    data = {
-        comments: comment
-    }
     updateComments2(id, docId, data, friends, followers);
 }
 
@@ -116,7 +113,6 @@ const appearFollowUsers = (type, data) => {
     data = data.split(',')
 
     data.forEach(async user =>{
-        console.log(user)
         await db.collection("profile").doc(user).get().then(doc => {
             list.innerHTML += `
                 <li class="follow-user-list-item btn" style="display: flex">
@@ -185,7 +181,7 @@ const displayProfile = async (id, data, friends) => {
                     img.dataset.target = "#social-info-post-modal"
                     img.onclick = () => {
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'img', doc.data().comments)
+                        friends, img_url, 'img')
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(img)
 
@@ -199,7 +195,7 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'video', doc.data().comments)
+                        friends, img_url, 'video')
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
@@ -256,11 +252,11 @@ const displayProfile = async (id, data, friends) => {
                     img.dataset.target = "#social-info-post-modal"
                     img.onclick = () => {
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'img', doc.data().comments)
+                        friends, img_url, 'img')
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(img)
                 }else if(extension == "mp4" || extension == "avi"){
-                    video = document.createElement("img");
+                    video = document.createElement("video");
 
                     video.src = img_url
                     video.className = "col-lg-4 col-md-6 col-sm-12"
@@ -268,9 +264,8 @@ const displayProfile = async (id, data, friends) => {
                     video.dataset.toggle = "modal"
                     video.dataset.target = "#social-info-post-modal"
                     video.onclick = () => {
-                        console.log('video')
                         displayProfilePostsModal(doc.id, doc.data(), id, data.name, data.avartar, data.followers,
-                        friends, img_url, 'video', doc.data().comments)
+                        friends, img_url, 'video')
                     }
                     document.getElementById(`social-info-posts-${id}`).appendChild(video)
                 }
@@ -310,7 +305,7 @@ const displayProfile = async (id, data, friends) => {
 
 const displayPost = (data, id, friends) => {
     //Check if this user has liked or not
-    let heartClassName = redOrGrey(data)
+    let heartClassName = redOrGrey(data);
   
     //If the content is undefined
     text = data.text
@@ -323,7 +318,7 @@ const displayPost = (data, id, friends) => {
         <div class="card posts" style="padding: 10px; margin-bottom: 50px">
             <div id="postInfo" style="display: flex">
                 <img src="${data.avartar}" alt="${data.name} avatar" class="small-avartar">
-                <a style="font-size: 18px" onclick="changeProfileId('${data.userId}', 'p')">${data.name}</a>
+                <a style="font-size: 22px" onclick="changeProfileId('${data.userId}', 'p')">${data.name}</a>
     `
 
     if(!(friends.includes(data.userId)) && currentId != data.userId){
@@ -331,6 +326,7 @@ const displayPost = (data, id, friends) => {
     }
     html += `
             </div>
+            <h6 style="font-size: 12px;font-weight: light;">${data.timestamp.toDate()}</h6>
             <hr/>
             <h3>${data.caption}</h3>
     `

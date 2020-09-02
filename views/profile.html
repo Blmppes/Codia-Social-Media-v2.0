@@ -90,7 +90,13 @@
                 <div id="profile-nav" class="ml-auto" style="display: flex;">
                     <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
                     <i class="fas fa-home mr-2" style="font-size: 25px;" onclick="window.location = 'index.html'"><span class="sr-only">(current)</span></i>
-                    <i class="far fa-paper-plane mr-5 my-auto" style="font-size: 22px;"></i>
+                    <i class="far fa-paper-plane mr-2 my-auto" style="font-size: 22px;"></i>
+                    <div class="mr-5" id="profile-notification-dropdown">
+                      <i class="far fa-bell" id="profile-notification-dropdown-btn" style="font-size: 25px;cursor: pointer;"></i>
+                      <div id="profile-notification-dropdown-menu">
+                      
+                      </div>
+                    </div>
                     <div id="profile-dropdown">
                         <img id="profile-dropdown-pic" src="" class="small-avartar"/>
                         <div id="profile-dropdown-menu">
@@ -140,6 +146,7 @@
         </div>
     </body>
     <script src="../static/init.js"></script>
+    <script src="../static/Modules/showNotification.js"></script>
     <script src="../static/Packages/searchFriend.js"></script>
     <script src="../static/Modules/likeCommentButtons.js"></script>
     <script src="../static/Modules/friends.js"></script>

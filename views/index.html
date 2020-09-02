@@ -54,15 +54,21 @@
           </button>
           
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div id="search-group" class="ml-auto" style="position: relative;width: 230px;height: 27px;overflow:visible">
+            <div id="search-group">
               <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="position:absolute;width: 230px;height: 27px;text-align: center;">
               <ul id="suggestionList"></ul>      
             </div>
       
             <div id="profile-nav" class="ml-auto" style="display: flex;">
                 <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
-                <i class="fas fa-home mr-2" style="font-size: 25px;" ><span class="sr-only">(current)</span></i>
-                <i class="far fa-paper-plane mr-5 my-auto" style="font-size: 22px;"></i>
+                <i class="fas fa-home mr-2" style="font-size: 25px;cursor: pointer;"><span class="sr-only">(current)</span></i>
+                <i class="far fa-paper-plane mr-2 my-auto" style="font-size: 22px;cursor: pointer;"></i>
+                <div class="mr-5" id="profile-notification-dropdown">
+                  <i class="far fa-bell" id="profile-notification-dropdown-btn" style="font-size: 25px;cursor: pointer;"></i>
+                  <div id="profile-notification-dropdown-menu">
+                  
+                  </div>
+                </div>
                 <div id="profile-dropdown">
                     <img id="profile-dropdown-pic" src="" class="small-avartar"/>
                     <div id="profile-dropdown-menu">
@@ -77,6 +83,12 @@
           </div>
         </div>  
       </nav>
+
+      <!-- suggestionList -->
+      <div id="friendsSuggestion" class="container border rounded">
+          <h3>Some Suggestion For You</h3>
+          <ul id="friendsSuggestionList" style="display:flex"></ul>
+      </div>
       <!-- Modal -->
       <div class="modal fade" id="newFeedModal" tabindex="-1" role="dialog" aria-labelledby="newFeedModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -103,19 +115,21 @@
         </div>
       </div>
       
-      <div class="container" id="posts-group" style="margin-top: 100px;max-width: 800px;"></div>
+      <div class="container" id="posts-group" style="margin-top: 20px;max-width: 800px;"></div>
     </div>
 
   </body>
   <script src="../static/init.js"></script>
   <script src="../static/Packages/convertDate.js"></script>
+  <script src="../static/Modules/showNotification.js"></script>
   <script src="../static/Packages/searchFriend.js"></script>
+  <script src="../static/Modules/suggestFriends.js"></script>
   <script src="../static/Modules/likeCommentButtons.js"></script>
   <script src="../static/Modules/friends.js"></script>
   <script src="../static/Modules/message.js"></script>
   <script src="../static/Modules/posts.js"></script>
-  <script src="../static/Services/db.js"></script>
   <script src="../static/Services/authentication.js"></script>
+  <script src="../static/Services/db.js"></script>
   <script src="../static/Modules/uploadfile.js"></script>
   
 </html>
