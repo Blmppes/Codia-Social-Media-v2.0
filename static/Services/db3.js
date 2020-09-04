@@ -2,7 +2,10 @@ db.collection("post").orderBy('like', "desc").limit(5).onSnapshot(function (snap
     snapshot.docChanges().forEach(async function (change) {
       if(change.type == "added"){
         await db.collection("profile").doc(currentId).get().then(doc => {
-          displayPost(change.doc.data(), change.doc.id, doc.data().friends)
+            if(doc.data().friends.includes(change.doc.data().userId)){
+                showNotification(change.doc.id, change.doc.data());
+              }
+            displayPost(change.doc.data(), change.doc.id, doc.data().friends)
         })
         await db.collection("profile").doc(currentId).get().then(doc => {
           updateComments(change.doc.id, change.doc.data(), doc.data().friends);
