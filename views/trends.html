@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap css CDN -->
+        <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+        />
+
+        <!-- Bootstrap js -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!--Fontawesome css CDN-->
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        />
+
+        <!--Firebase service-->
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-storage.js"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+        <!-- css -->
+        <link rel="stylesheet" href="../static/Stylesheets/style.css" />
+
+        <link rel="stylesheet" type="text/css" href="../static/css/util.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <!--===============================================================================================-->
+
+        <!--Jquery-->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="page-container" class="container-fluid">           
+            <nav class="navbar navbar-expand-lg border-bottom" style="position: fixed; left: 0px; top: 0px; width: 100%;background-color: white;z-index: 1;">
+                <div id="inner-navbar" class="navbar navbar-expand-lg mx-auto" style="width: 966px;padding: 0px">
+                  <img src="../static/images/icons/logo.PNG" class="navbar-brand" href="#" style="height: 40px;width: 90px">
+        
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-chevron-circle-down"></i>
+                  </button>
+                  
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div id="search-group">
+                      <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="position:absolute;width: 230px;height: 27px;text-align: center;">
+                      <ul id="suggestionList"></ul>      
+                    </div>
+              
+                    <div id="profile-nav" class="ml-auto" style="display: flex;">
+                        <i class="fas fa-home mr-2" onclick="window.location = 'index.html'" style="font-size: 25px;cursor: pointer;"><span class="sr-only">(current)</span></i>
+                        <i class="far fa-paper-plane mr-2 my-auto" style="font-size: 22px;cursor: pointer;"></i>
+                        <i class="fas fa-medal mr-2 my-auto" style="font-size: 22px;cursor: pointer;"></i>
+                        <div class="mr-5" id="profile-notification-dropdown">
+                          <i class="far fa-bell" id="profile-notification-dropdown-btn" style="font-size: 25px;cursor: pointer;position: relative">
+                            <span class="badge badge-primary" style="position: absolute;font-size:12px;top:18px;left:16px;">0</span>
+                            <div id="profile-notification-dropdown-menu">
+                          
+                            </div>
+                          </i>
+                        </div>
+                        <div id="profile-dropdown">
+                            <img id="profile-dropdown-pic" src="" class="small-avartar"/>
+                            <div id="profile-dropdown-menu">
+                              <a id="profile-btn"><i class="far fa-user-circle"></i><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Profile</p></a>
+                              <br>
+                              <i class="fas fa-cog"><p style="margin: 0px 0px 5px 5px;display: inline;" class="dropdown-items">Setting</p></i>
+                              <hr/>
+                              <p id="logout-btn" style="margin-bottom: 5px" class="dropdown-items">Log Out</p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>  
+            </nav>
+            <div class="container" id="posts-group" style="margin-top: 100px;max-width: 800px;">
+
+            </div>
+        </div>
+    </body>
+    <script src="../static/init.js"></script>
+    <script src="../static/Modules/showNotification.js"></script>
+    <script src="../static/Packages/searchFriend.js"></script>
+    <script src="../static/Modules/likeCommentButtons.js"></script>
+    <script src="../static/Modules/friends.js"></script>
+    <!-- <script src="../static/Modules/message.js"></script> -->
+    <script src="../static/Modules/posts.js"></script>
+    <script src="../static/Services/db3.js"></script>
+    <script src="../static/Services/authentication.js"></script>
+</html>

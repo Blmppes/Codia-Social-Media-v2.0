@@ -88,14 +88,16 @@
                 </div>
           
                 <div id="profile-nav" class="ml-auto" style="display: flex;">
-                    <i class="far fa-plus-square my-auto mr-2" id="new-feed" data-toggle="modal" data-target="#newFeedModal" style="cursor:pointer;font-size: 20px;"></i>
-                    <i class="fas fa-home mr-2" style="font-size: 25px;" onclick="window.location = 'index.html'"><span class="sr-only">(current)</span></i>
-                    <i class="far fa-paper-plane mr-2 my-auto" style="font-size: 22px;"></i>
+                    <i class="fas fa-home mr-2" style="font-size: 25px;cursor: pointer;" onclick="window.location = 'index.html'"><span class="sr-only">(current)</span></i>
+                    <i class="far fa-paper-plane mr-2 my-auto" style="font-size: 22px;cursor: pointer;"></i>
+                    <i class="fas fa-medal mr-2 my-auto" style="font-size: 22px;cursor: pointer;"></i>
                     <div class="mr-5" id="profile-notification-dropdown">
-                      <i class="far fa-bell" id="profile-notification-dropdown-btn" style="font-size: 25px;cursor: pointer;"></i>
-                      <div id="profile-notification-dropdown-menu">
+                      <i class="far fa-bell" id="profile-notification-dropdown-btn" style="font-size: 25px;cursor: pointer;position: relative">
+                        <span class="badge badge-primary" style="position: absolute;font-size:12px;top:18px;left:16px;">0</span>
+                        <div id="profile-notification-dropdown-menu">
                       
-                      </div>
+                        </div>
+                      </i>
                     </div>
                     <div id="profile-dropdown">
                         <img id="profile-dropdown-pic" src="" class="small-avartar"/>

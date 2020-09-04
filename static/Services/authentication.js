@@ -8,11 +8,20 @@ document.getElementById("profile-dropdown").onclick = () => {
     }
 }
 
-document.getElementById("profile-notification-dropdown-btn").onclick = () => {
-    if(document.getElementById("profile-notification-dropdown-menu").style.display == "none"){
-        document.getElementById("profile-notification-dropdown-menu").style.display = "block"
+document.getElementById("profile-notification-dropdown-btn").onclick = async () => {
+    let dropdownMenu = document.getElementById("profile-notification-dropdown-menu");
+    if(dropdownMenu.style.display == "none"){
+        dropdownMenu.style.display = "block"
+        childs = dropdownMenu.childNodes
+        console.log(childs)
+        for(let i = 1; i < childs.length; i+=2){
+            id = childs[i].id.split('-')[4]
+            await db.collection("post").doc(id).update({
+                'read': firebase.firestore.FieldValue.arrayUnion(currentId)
+            });
+        }
     }else{
-        document.getElementById("profile-notification-dropdown-menu").style.display = "none"
+        dropdownMenu.style.display = "none"
     }
 }
 

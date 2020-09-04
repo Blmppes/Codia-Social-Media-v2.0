@@ -197,10 +197,11 @@ body {
   background-color: white;
   display: none;
   position: absolute;
-  top: 45px;
-  right: 70px;
+  top: 38px;
+  left: -150px;
   padding: 10px;
   width: 190px;
+  min-width: 80px;
   height: fit-content;
   min-height: 130px;
   max-height: 200px;
