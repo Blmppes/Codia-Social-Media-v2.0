@@ -1,5 +1,4 @@
 const showNotification = (id, data) => {
-    console.log(data)
     menu = document.getElementById("profile-notification-dropdown-menu");
 
     if(!(data.read.includes(currentId))){

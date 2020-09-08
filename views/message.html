@@ -43,7 +43,7 @@
 
         <title>Document</title>
     </head>
-    <body>
+    <body class="bg-light" style="overflow: hidden">
         <div id="page-container" class="container-fluid">           
             <nav class="navbar navbar-expand-lg border-bottom" style="position: fixed; left: 0px; top: 0px; width: 100%;background-color: white;z-index: 1;">
                 <div id="inner-navbar" class="navbar navbar-expand-lg mx-auto" style="width: 966px;padding: 0px">
@@ -85,9 +85,30 @@
                   </div>
                 </div>  
             </nav>
-            <h1 style="margin-top: 100px;text-align:center">Hot Trends</h1>
-            <div class="container" id="posts-group" style="margin-top: 20px;max-width: 800px;">
+            <div class="container row border p-0" id="messages-group">
+              <div id="friends-list" class="col-lg-4 col-md-4 col-sm-2 border-right p-0">
+                <div id="friends-list-nav" style="border-top-left-radius: 5px;text-align: center;padding: 5px 10px">
+                  <input id="search-friend-input" class="form-control bg-light" type="search" placeholder="Search for your friend:" aria-label="Search" style="height: 27px;text-align: center;">
+                </div>
+                <ul id="friends-list-menu"  class="border-top" style="height: 100%;overflow-y: auto;border-bottom-left-radius: 5px;padding: 10px;">
+                  
+                </ul>
+              </div> 
+              <div id="chat-container" class="col-lg-8 col-md-8 col-sm-10" style="padding:0px;border-top-right-radius: 5px;border-bottom-right-radius: 5px">
+                <div id="chat-container-nav border-bottom" style="border-top-right-radius: 5px;padding: 5px 10px">
+                  
+                </div>
+                <div id="chat-container-textbox" style="border-bottom-right-radius: 5px;">
+                  <ul id="chat-container-textbox-texts" style="padding: 0px 10px;overflow-y:scroll;min-height: 100%"></ul>
 
+                  <div id="chat-container-textbox-inputs" class="input-group" style="position: absolute;bottom: 0%;">
+                    <input type="text" class="form-control" id="inputText" placeholder="Add a message..."/>
+                    <div class="input-group-append" id="postMessageBtn" style="cursor:pointer">
+                        <span class="input-group-text">Post</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
     </body>
@@ -96,8 +117,8 @@
     <script src="../static/Packages/searchFriend.js"></script>
     <script src="../static/Modules/likeCommentButtons.js"></script>
     <script src="../static/Modules/friends.js"></script>
-    <!-- <script src="../static/Modules/message.js"></script> -->
+    <script src="../static/Modules/message.js"></script>
     <script src="../static/Modules/posts.js"></script>
-    <script src="../static/Services/db3.js"></script>
+    <script src="../static/Services/db4.js"></script>
     <script src="../static/Services/authentication.js"></script>
 </html>

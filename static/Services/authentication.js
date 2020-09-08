@@ -28,6 +28,7 @@ document.getElementById("profile-notification-dropdown-btn").onclick = async () 
 auth.onAuthStateChanged(function(user) {  
     if (user && user.uid != currentId) {  
         currentId = user.uid;
+        console.log(currentId)
 
         db.collection("profile").doc(user.uid).get().then((doc) => {
             document.getElementById("profile-dropdown-pic").src = doc.data().avartar

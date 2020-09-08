@@ -171,7 +171,7 @@ const displayProfile = async (id, data, friends) => {
                 let extension = img_url.split("?")[0];
                 extension = extension.substring(extension.length - 3, extension.length)
 
-                if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
+                if (extension == "png" || extension == "PNG" || extension == "jpg" || extension == "jpeg"){
                     img = document.createElement("img");
 
                     img.src = img_url
@@ -304,6 +304,7 @@ const displayProfile = async (id, data, friends) => {
 }
 
 const displayPost = (data, id, friends) => {
+    console.log(data.imageUrl)
     //Check if this user has liked or not
     let heartClassName = redOrGrey(data);
   
@@ -333,7 +334,7 @@ const displayPost = (data, id, friends) => {
     let extension = data.imageUrl.split("?")[0];
     extension = extension.substring(extension.length - 3, extension.length)
 
-    if (extension == "PNG" || extension == "jpg" || extension == "jpeg"){
+    if (extension == "PNG" || extension == "png" || extension == "jpg" || extension == "jpeg"){
         html += `
         <img class="card-img-top responsive" src="${data.imageUrl}" alt="Card image cap" width="600px" height="400px"></img>
         `

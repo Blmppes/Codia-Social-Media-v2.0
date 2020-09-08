@@ -1,7 +1,8 @@
 const uploadImage = () => {
 
     //Upload file to storage
-    let file = FILE.files[0];
+    let file = document.getElementById("file").files[0];
+    console.log(file)
 
     let storageRef = storage.ref('pictures/' + file.name);
 
