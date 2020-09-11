@@ -18,21 +18,17 @@ try{
             if(change.type == "added"){
                 if(change.doc.data().send_id == currentId && change.doc.data().recieve_id == partnerId){
                     textBox.innerHTML += `
-                    <li style="width: 100%">
-                        <div>
-                            <h6 class="lead">${change.doc.data().send}</h6>
-                            <p class="bg-primary text-light p-2" style="font-size: 20px;">${change.doc.data().text}</p>
+                        <div class="mt-2" style="display:block">
+                            <img src="${change.doc.data().send}" class="small-avartar">
+                            <p class="bg-primary text-light p-2" style="font-size: 20px;display:inline">${change.doc.data().text}</p>
                         </div>
-                    </li>
                     `
                 }else if(change.doc.data().recieve_id == currentId && change.doc.data().send_id == partnerId){
                     textBox.innerHTML += `
-                    <li style="width: 100%">
-                        <div style="float:right">
-                            <h6>${change.doc.data().send}</h6>
-                            <p class="bg-light text-dark border p-2" style="font-size: 20px">${change.doc.data().text}</p>
+                        <div class="mt-2" style="display:block">
+                            <img src="${change.doc.data().send}" class="small-avartar">
+                            <p class="bg-light text-dark border p-2" style="font-size: 20px;display:inline">${change.doc.data().text}</p>
                         </div>
-                    </li>
                     `
                 }      
             }

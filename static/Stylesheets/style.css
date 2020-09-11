@@ -323,13 +323,21 @@ body {
   /* border: 1px solid grey; */
 }
 
-#chat-container-textbox-texts li p{
+#chat-container-textbox-texts div p{
   max-width: 230px;
   width: fit-content;
   border-radius: 100px;
 }
 
-#chat-container-textbox-texts li h6{
+#chat-container-textbox-texts div h6{
   font-size: 15px;
   font-weight: 50;
+}
+
+#chat-container-textbox-texts{
+  position: absolute;
+  padding: 0px 10px;
+  overflow-y:auto;
+  width:100%;
+  height:90%;
 }
